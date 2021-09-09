@@ -1,4 +1,5 @@
 # 🐘 Postgres App
+
 By Anthony Vilarim Caliani
 
 ![#](https://img.shields.io/badge/licence-MIT-lightseagreen.svg)
@@ -7,14 +8,21 @@ By Anthony Vilarim Caliani
 ### Quick Start
 
 Install project dependencies.
+
 ```bash
 poetry install
 ```
 
-Project execution...
+> ⚠️ Now on, you must activate poetry's venv.
+
+Before executing the main script, create a mocked dataset.
+
 ```bash
-# Soon...
+python mock.py
 ```
 
+**_Next steps soon..._**
+
 ## Related Links
+
 - [DockerHub: Postgres](https://hub.docker.com/_/postgres)
