@@ -1,5 +1,6 @@
 """ Script to generate mocked records. """
 import re
+from argparse import ArgumentParser
 from datetime import date, timedelta
 from os import makedirs
 from random import randint
@@ -7,6 +8,8 @@ from random import randint
 import pandas as pd
 from faker import Faker
 from validate_docbr import CPF
+
+from src.util import Timer
 
 
 def get_users(how_many):
@@ -48,14 +51,14 @@ def gen_score(user, updated_at):
     return user_
 
 
-def save(df, out_path):
+def save(df, out_file):
     """Write mock data as CSV.
 
     :param df: Pandas Data Frame.
-    :param out_path: Output Path.
+    :param out_file: Output file name.
     """
     print('------------< save >------------')
-    out_file = 'user-score.csv'
+    out_path = './data'
     makedirs(out_path, exist_ok=True)
     print(f'path: {out_path}/{out_file}')
     print(f'shape: {df.shape}')
@@ -63,10 +66,10 @@ def save(df, out_path):
     print('--------------------------------')
 
 
-def create(output, users, period):
+def create(out_file, users, period):
     """Create user score time series dataset.
 
-    :param output: Output path.
+    :param out_file: Output file name.
     :param users: How many users.
     :param period: Time series period.
     """
@@ -79,10 +82,25 @@ def create(output, users, period):
 
     df = pd.DataFrame(mock)
     df = df.sort_values(['document', 'updated_at'])
-    save(df, output)
+    save(df, out_file)
+
+
+def get_args():
+    """ Return script arguments. """
+    parser = ArgumentParser(description='Postgres App')
+    parser.add_argument('-o', '--out-file', default='user-score.csv', help='Output file name.')
+    parser.add_argument('-u', '--users', default=10, type=int, help='Number of random users.')
+    parser.add_argument('-p', '--period', default=120, type=int, help='Time Period in Days.')
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
+    args, timer = get_args(), Timer()
+    print(f'Args: {args}')
     print('Creating user scores...')
-    create('./data', users=10, period=120)
-    print('#done')
+    create(
+        out_file=args.out_file,
+        users=args.users,
+        period=args.period
+    )
+    print(f'Elapsed time: {timer.stop()}\n#done')

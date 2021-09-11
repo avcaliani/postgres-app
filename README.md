@@ -18,7 +18,11 @@ poetry install
 Before executing the main script, create a mocked dataset.
 
 ```bash
+# Create mock dataset using default values...
 python mock.py
+
+# Or, try --help for more options...
+python mock.py -h
 ```
 
 **_Next steps soon..._**
