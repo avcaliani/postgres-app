@@ -15,6 +15,11 @@ poetry install
 
 > ⚠️ Now on, you must activate poetry's venv.
 
+Up Docker container.
+```bash
+docker-compose up -d
+```
+
 Before executing the main script, create a mocked dataset.
 
 ```bash
@@ -25,8 +30,18 @@ python mock.py
 python mock.py -h
 ```
 
-**_Next steps soon..._**
+Now, you can execute some operations into Postgres.
+```bash
+# Help
+python main.py -h
+
+# Execute main script
+python main.py -p [ 'save' | 'report' ] [ --overwrite ]
+```
 
 ## Related Links
 
 - [DockerHub: Postgres](https://hub.docker.com/_/postgres)
+- [Pandas Docs: Save to SQL](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html)
+- [Pandas Docs: Save to SQL](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html)
+- [Medium: Wrinting DataFrame to Postgres](https://towardsdatascience.com/upload-your-pandas-dataframe-to-your-database-10x-faster-eb6dc6609ddf)
