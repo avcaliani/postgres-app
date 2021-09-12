@@ -43,5 +43,6 @@ python main.py -p [ 'save' | 'report' ] [ --overwrite ]
 
 - [DockerHub: Postgres](https://hub.docker.com/_/postgres)
 - [Pandas Docs: Save to SQL](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html)
-- [Pandas Docs: Save to SQL](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html)
+- [Pandas Docs: Read SQL](https://pandas.pydata.org/docs/reference/api/pandas.read_sql.html)
 - [Medium: Wrinting DataFrame to Postgres](https://towardsdatascience.com/upload-your-pandas-dataframe-to-your-database-10x-faster-eb6dc6609ddf)
+- [Stack Overflow: Upsert](https://stackoverflow.com/a/62379384)
