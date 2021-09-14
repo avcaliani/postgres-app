@@ -66,10 +66,9 @@ def save(df, out_file):
     print('--------------------------------')
 
 
-def create(out_file, users, period):
+def create(users, period):
     """Create user score time series dataset.
 
-    :param out_file: Output file name.
     :param users: How many users.
     :param period: Time series period.
     """
@@ -82,15 +81,15 @@ def create(out_file, users, period):
 
     df = pd.DataFrame(mock)
     df = df.sort_values(['document', 'updated_at'])
-    save(df, out_file)
+    save(df[df['updated_at'] == df['updated_at'].max()], 'user-score.csv')
+    save(df, 'user-score-history.csv')
 
 
 def get_args():
     """ Return script arguments. """
     parser = ArgumentParser(description='Postgres App')
-    parser.add_argument('-o', '--out-file', default='user-score.csv', help='Output file name.')
-    parser.add_argument('-u', '--users', default=10, type=int, help='Number of random users.')
-    parser.add_argument('-p', '--period', default=120, type=int, help='Time Period in Days.')
+    parser.add_argument('-u', '--users', default=1000, type=int, help='Number of random users.')
+    parser.add_argument('-p', '--period', default=365*10, type=int, help='Time Period in Days.')
     return parser.parse_args()
 
 
@@ -99,7 +98,6 @@ if __name__ == '__main__':
     print(f'Args: {args}')
     print('Creating user scores...')
     create(
-        out_file=args.out_file,
         users=args.users,
         period=args.period
     )

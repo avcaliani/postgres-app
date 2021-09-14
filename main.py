@@ -21,8 +21,6 @@ TABLE_DTYPE = {
 def get_args():
     parser = ArgumentParser(description='Postgres App')
     parser.add_argument('pipeline', help='Pipeline')
-    parser.add_argument('-f', dest='file', default='./data/user-score.csv', help='Pipeline')
-    parser.add_argument('--overwrite', nargs='?', type=bool, const=True, default=False, help='Overwrite data?')
     return parser.parse_args()
 
 
@@ -64,16 +62,21 @@ def report():
     print(df)
 
 
-def save(df, overwrite):
-    db = create_engine(credentials()).connect()
+def save(conn, df, table, overwrite):
+    wr_timer = Timer()
+    print('=~=~=~=~=~=~=~= WRITE =~=~=~=~=~=~=~')
+    print(f'Schema: {DB_SCHEMA}')
+    print(f'Table: {table}')
+    print(f'Overwrite: {overwrite}')
     df.to_sql(
-        name=TABLE_NAME,
-        con=db,
+        name=table,
+        con=conn,
         if_exists='replace' if overwrite else 'append',
         index=False,
         schema=DB_SCHEMA,
         dtype=TABLE_DTYPE,
     )
+    print(f'Elapsed time: {wr_timer.stop()}')
 
 
 if __name__ == '__main__':
@@ -83,7 +86,11 @@ if __name__ == '__main__':
     if pipeline == 'report':
         report()
     elif pipeline == 'save':
-        save(df=read_file(args.file), overwrite=args.overwrite)
+        db = create_engine(credentials()).connect()
+        # Auto Generated Table
+        save(conn=db, df=read_file('./data/user-score.csv'), table=TABLE_NAME, overwrite=True)
+        # Existing Table
+        save(conn=db, df=read_file('./data/user-score-history.csv'), table=f'{TABLE_NAME}_history', overwrite=False)
     else:
         raise RuntimeError(f'Pipeline "{args.pipeline}" does not exist.')
-    print(f'Elapsed time: {timer.stop()}')
+    print(f'App executed in {timer.stop()}')

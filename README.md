@@ -36,7 +36,7 @@ Now, you can execute some operations into Postgres.
 python main.py -h
 
 # Execute main script
-python main.py [ 'save' | 'report' ] [ --overwrite ]
+python main.py [ 'save' | 'report' ]
 ```
 
 ## Related Links
