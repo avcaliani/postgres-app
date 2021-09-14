@@ -11,6 +11,8 @@ services:
       POSTGRES_DB: postgres-app
     ports:
       - '5432:5432'
+    volumes:
+      - ./resources/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
 
   adminer:
     image: adminer:4-standalone
